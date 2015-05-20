@@ -1,3 +1,5 @@
+package mirelac;
+
 public class Rendering extends Composant
 {
 

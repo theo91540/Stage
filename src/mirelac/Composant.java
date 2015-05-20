@@ -1,3 +1,5 @@
+package mirelac;
+
 /**
  * <b>Composant est un composant d'un systeme MIRELA.</b>
  * <p>
@@ -56,7 +58,6 @@ public abstract class Composant
 
 		return -1;
 	}
-
 
 	//Getters et Setters 
 
@@ -117,6 +118,5 @@ public abstract class Composant
 	}
 
 	public abstract String toXML(Systeme sys);
-
 }
 

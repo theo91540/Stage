@@ -1,3 +1,5 @@
+package mirelac;
+
 public class Periodic extends Capteur
 {
 
@@ -11,7 +13,7 @@ public class Periodic extends Capteur
 		int init = sys.getIdLocation();
 
 		parameters(sys);
-		
+
 		//locations entree
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"0\" y=\"0\"><name x=\"-20\" y=\"-25\">E</name><label kind=\"invariant\" x=\"-50\" y=\"20\">x&lt;"+this.getMaxStart()+"</label></location>\n";
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"150\" y=\"0\"><name x=\"130\" y=\"-25\">T</name><label kind=\"invariant\" x=\"100\" y=\"20\">x&lt;"+this.getMax()[0]+"</label></location>\n";

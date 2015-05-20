@@ -1,3 +1,5 @@
+package mirelac;
+
 public class Both extends UniteTraitement
 {
 

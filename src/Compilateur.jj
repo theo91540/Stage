@@ -5,13 +5,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.Math;
 
+import mirelac.*;
+
 public class Compilateur
 {
 	public static void main (String[] args) throws ParseException
 	{
 		try 
 		{
-			new Compilateur(new java.io.FileReader("mirela.txt")).SPECIFICATION();
+
+			new Compilateur(new java.io.FileReader("../mirela.txt")).SPECIFICATION();
 		
 		}
 		catch(Throwable e)
@@ -64,7 +67,7 @@ void SPECIFICATION(): {String name; Composant c; Systeme system = new Systeme();
 		)
 		{system.addComposant(c);}
 	)*  <EOF>
-	{ system.checkConsistency(); system.generateTargets(); ecrire("mirela.xml", system.toXML());}
+	{ system.checkConsistency(); system.generateTargets(); ecrire("../out/mirela.xml", system.toXML());}
 }
 
 void PERIODIC(Composant c): {int minstart, maxstart; int[] min = new int[1], max = new int[1];}

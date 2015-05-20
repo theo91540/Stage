@@ -1,0 +1,174 @@
+PARSER_BEGIN(Compilateur)
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.Math;
+
+public class Compilateur
+{
+	public static void main (String[] args) throws ParseException
+	{
+		try 
+		{
+			new Compilateur(new java.io.FileReader("mirela.txt")).SPECIFICATION();
+		
+		}
+		catch(Throwable e)
+		{
+			System.out.println("Syntaxe incorrecte :" + e.getMessage());
+		}
+	}
+}
+
+PARSER_END(Compilateur)
+
+SKIP: 
+{
+	  "\n"
+	| "\r"
+	| "\r\n"
+	| "\t"
+	| " "
+	| <"//" (~["\n","\r"])* ("\n"|"\r")>
+	| <"/*" (~[])* "*/">
+}
+
+TOKEN : 
+{
+     <PERIODIC: "Periodic">
+	|<APERIODIC: "Aperiodic">
+	|<FIRST: "First">
+	|<BOTH: "Both">
+	|<PRIORITY: "Priority">
+	|<MEMORY: "Memory">
+	|<RENDERING: "Rendering">
+	| <INT: (["0"-"9"])+>
+}
+
+TOKEN [IGNORE_CASE]: 
+{
+	<ID: ["a"-"z"](["0"-"9","a"-"z"])*>
+}
+
+void SPECIFICATION(): {String name; Composant c; Systeme system = new Systeme();}
+{
+	( name = STRING() "=" (
+		  PERIODIC(c = new Periodic(name))
+		| APERIODIC(c = new Aperiodic(name))
+		| FIRST(c = new First(name))
+		| BOTH(c = new Both(name))
+		| PRIORITY(c = new Priority(name))
+		| MEMORY(c = new Memory(name))
+		| RENDERING(c = new Rendering(name))
+		)
+		{system.addComposant(c);}
+	)*  <EOF>
+	{ system.checkConsistency(); system.generateTargets(); ecrire("mirela.xml", system.toXML());}
+}
+
+void PERIODIC(Composant c): {int minstart, maxstart; int[] min = new int[1], max = new int[1];}
+{
+	<PERIODIC> "(" minstart = INTEGER() "," maxstart = INTEGER() ")" "[" min[0] = INTEGER() "," max[0] = INTEGER() "]" TARGETS(c)
+	{c.setMinStart(minstart);c.setMaxStart(maxstart);c.setMin(min);c.setMax(max);}
+}
+
+void APERIODIC(Composant c): {int[] min = new int[1];}
+{
+	<APERIODIC> "(" min[0] = INTEGER() ")" TARGETS(c)
+	{c.setMin(min);}
+}
+
+void FIRST(Composant c): {String[] source = new String[1];int[] min = new int[1], max = new int[1];}
+{
+	<FIRST> "(" source[0] = STRING() source = MULTIPLE(source) "[" min[0] = INTEGER() {for(int i=0;i<(source.length)-(min.length);i++){min = addInt(min,min[0]);}} "," max[0] = INTEGER() {for(int i=0;i<(source.length)-(max.length);i++){max = addInt(max,max[0]);}} "]" ("," source = addString(source,STRING()) source = MULTIPLE(source) "[" min = addInt(min,INTEGER()) {for(int i=0;i<(source.length)-(min.length);i++){min = addInt(min,min[0]);}} "," max = addInt(max,INTEGER()) {for(int i=0;i<(source.length)-(max.length);i++){max = addInt(max,max[0]);}} "]" )* ")" TARGETS(c)
+	{c.setSource(source);c.setMin(min);c.setMax(max);}
+}
+
+void BOTH(Composant c): {String[] source = new String[2];int[] min = new int[1], max = new int[1];}
+{
+	<BOTH> "(" source[0] = STRING() "," source[1] = STRING() ")" "[" min[0] = INTEGER() "," max[0] = INTEGER() "]" TARGETS(c)
+	{c.setSource(source);c.setMin(min);c.setMax(max);}
+}
+
+void PRIORITY(Composant c): {String[] source = new String[2];int[] min = new int[2], max = new int[2];}
+{
+	<PRIORITY> "(" source[0] = STRING() "[" min[0] = INTEGER() "," max[0] = INTEGER() "]" "," source[1] = STRING() "[" min[1] = INTEGER() "," max[1] = INTEGER() "]" ")" TARGETS(c)
+	{c.setSource(source);c.setMin(min);c.setMax(max);}
+}
+
+void MEMORY(Composant c): {String[] source = new String[1];int[] min = new int[1], max = new int[1];}
+{
+	<MEMORY> "(" source[0] = STRING() "[" min[0] = INTEGER() "," max[0] = INTEGER() "]" ("," source = addString(source,STRING()) "[" min = addInt(min,INTEGER()) "," max = addInt(max,INTEGER()) "]" )* ")" TARGETS(c)
+	{c.setSource(source);c.setMin(min);c.setMax(max);}
+}
+
+void RENDERING(Composant c): {String[] source = new String[1]; int minstart, maxstart; int[] min = new int[1], max = new int[1];}
+{
+	<RENDERING> "(" source[0] = STRING() ")" "(" minstart = INTEGER() "," maxstart = INTEGER() ")" "[" min[0] = INTEGER() "," max[0] = INTEGER() "]" (";")*
+	{c.setSource(source);c.setMinStart(minstart);c.setMaxStart(maxstart);c.setMin(min);c.setMax(max);}
+}
+
+void TARGETS(Composant c): {String[] cible = new String[1];}
+{
+	"->" "(" cible[0] = STRING() ("," cible = addString(cible,STRING()) )* ")" (";")*
+	{c.setTarget(cible);}
+	| (";")*
+}
+
+String[] MULTIPLE(String[] source): {}
+{
+	("," source = addString(source,STRING()) )*
+	{return source;}
+}
+
+int INTEGER(): {Token n;}
+{
+	n=<INT> {return Integer.parseInt(n.image);}
+}
+
+String STRING(): {Token s;}
+{
+	s=<ID> {return s.toString();}
+}
+
+void ecrire(String nomFic, String texte): {}
+{
+	{String adressedufichier = System.getProperty("user.dir") + "/"+ nomFic;
+	
+	try
+	{
+		FileWriter fw = new FileWriter(adressedufichier, false);
+		BufferedWriter output = new BufferedWriter(fw);
+		output.write(texte);
+		output.flush();
+		output.close();
+		System.out.println("Compilation réussie");
+	}
+	catch(IOException ioe)
+	{
+		System.out.print("Erreur : ");
+		ioe.printStackTrace();
+	}}
+
+}
+
+int[] addInt(int[] tab, int n): {}
+{
+	{int[] temp = new int[tab.length+1];
+	for(int i=0;i<tab.length;i++){
+		temp[i]=tab[i];
+	}
+	temp[tab.length]=n;
+	return temp;}
+}
+
+String[] addString(String[] tab, String s): {}
+{
+	{String[] temp = new String[tab.length+1];
+	for(int i=0;i<tab.length;i++){
+		temp[i]=tab[i];
+	}
+	temp[tab.length]=s;
+	return temp;}
+}

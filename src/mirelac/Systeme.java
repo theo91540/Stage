@@ -84,13 +84,10 @@ public class Systeme
 	
 	public int nbOutLoc(String[] target)
 	{
-		int n=-1;
+		int n = -1;
 		for(int i=0; target.length>i; i++)
 		{
-			if(toComp(target[i]) instanceof Memory)
-				n+=3;
-			else
-				n+=1;
+			n += (toComp(target[i]) instanceof Memory)?3:1;
 		}
 
 		return n;
@@ -208,8 +205,12 @@ public class Systeme
 
 	public String toXML()
 	{
-		String codexml = "<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>\n<nta>\n<declaration>\n</declaration>\n";
 		String sys_system = "system ";
+
+		String codexml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+						 "<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>\n" +
+						 "<nta>\n" +
+						 "<declaration></declaration>\n";
 
 		for(int i=0; i<liste_composants.size(); i++)
 		{

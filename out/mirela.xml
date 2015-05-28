@@ -1,108 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'>
 <nta>
-<declaration>
-</declaration>
+<declaration></declaration>
 <template>
 <name>S1_t</name>
-<parameter>urgent chan &amp;k_S1_F</parameter><declaration>clock x;</declaration>
+<parameter>urgent chan &amp;k_S1_B, urgent chan &amp;k_S1_F</parameter><declaration> clock x; </declaration>
 <location id="0" x="0" y="0"><name x="-20" y="-25">E</name><label kind="invariant" x="-50" y="20">x&lt;300</label></location>
 <location id="1" x="150" y="0"><name x="130" y="-25">T</name><label kind="invariant" x="100" y="20">x&lt;450</label></location>
-<location id="2" x="300" y="0"><name x="280" y="-25">S</name></location>
+<location id="2" x="300" y="0"><name x="1780" y="-25">S</name></location>
+<location id="3" x="300" y="100"></location>
 <init ref="0"/>
-<transition><source ref="0"/><target ref="1"/><label kind="guard" x="50" y="-20">x&gt;=200</label><label kind="assignment" x="50" y="10">x=0</label></transition>
+<transition><source ref="0"/><target ref="1"/><label kind="guard" x="50" y="-20">x&gt;=200</label><label kind="assignment" x="50" y="0">x:=0</label></transition>
 <transition><source ref="1"/><target ref="2"/><label kind="guard" x="200" y="-20">x&gt;=150</label></transition>
-<transition><source ref="2"/><target ref="1"/><label kind="synchronisation" x="200" y="80">k_S1_F!</label><label kind="assignment" x="200" y="110">x=0</label><nail x="300" y="100"/><nail x="150" y="100"/></transition>
+<transition><source ref="2"/><target ref="3"/><label kind="synchronisation" x="350" y="80">k_S1_B!</label><label kind="assignment" x="350" y="100">x:=0</label><nail x="450" y="0"/><nail x="450" y="100"/></transition>
+<transition><source ref="3"/><target ref="1"/><label kind="synchronisation" x="200" y="80">k_S1_F!</label><label kind="assignment" x="200" y="100">x:=0</label><nail x="150" y="100"/></transition>
 </template>
 <template>
 <name>S2_t</name>
-<parameter>urgent chan &amp;k_S2_F, urgent chan &amp;k_S2_B</parameter><declaration>clock x;</declaration>
-<location id="3" x="0" y="0"><name x="-20" y="-25">S</name></location>
-<location id="4" x="150" y="0"><name x="130" y="-25">T</name></location>
-<location id="5" x="150" y="100"></location>
-<init ref="3"/>
-<transition><source ref="3"/><target ref="4"/><label kind="guard" x="50" y="-20">x&gt;=20</label></transition>
-<transition><source ref="4"/><target ref="5"/><label kind="synchronisation" x="200" y="80">k_S2_F!</label><label kind="assignment" x="200" y="110">x=0</label><nail x="300" y="0"/><nail x="300" y="100"/></transition>
-<transition><source ref="5"/><target ref="3"/><label kind="synchronisation" x="50" y="80">k_S2_B!</label><label kind="assignment" x="50" y="110">x=0</label><nail x="0" y="100"/></transition>
-</template>
-<template>
-<name>F_t</name>
-<parameter>urgent chan &amp;k_S1_F, urgent chan &amp;k_S2_F, urgent chan &amp;k_F_B, urgent chan &amp;k_F_P</parameter><declaration>clock x;</declaration>
-<location id="6" x="0" y="0"><name x="-20" y="-25">W</name></location>
-<location id="7" x="150" y="0"><name x="130" y="-25">P0</name><label kind="invariant" x="100" y="20">x&lt;75</label></location>
-<location id="8" x="150" y="-100"><name x="130" y="-125">P1</name><label kind="invariant" x="100" y="-80">x&lt;75</label></location>
-<location id="9" x="300" y="0"></location>
-<location id="10" x="150" y="100"></location>
-<init ref="6"/>
-<transition><source ref="6"/><target ref="7"/><label kind="synchronisation" x="50" y="-20">k_S1_F?</label><label kind="assignment" x="50" y="10">x=0</label></transition>
-<transition><source ref="6"/><target ref="8"/><label kind="synchronisation" x="50" y="-120">k_S2_F?</label><label kind="assignment" x="50" y="-90">x=0</label><nail x="0" y="-100"/></transition>
-<transition><source ref="7"/><target ref="9"/><label kind="guard" x="200" y="-20">x&gt;=50</label></transition>
-<transition><source ref="8"/><target ref="9"/><label kind="guard" x="200" y="-120">x&gt;=50</label><nail x="300" y="-100"/></transition>
-<transition><source ref="9"/><target ref="10"/><label kind="synchronisation" x="200" y="80">k_F_B!</label><label kind="assignment" x="200" y="110">x=0</label><nail x="300" y="100"/></transition>
-<transition><source ref="10"/><target ref="6"/><label kind="synchronisation" x="50" y="80">k_F_P!</label><label kind="assignment" x="50" y="110">x=0</label><nail x="0" y="100"/></transition>
+<parameter>urgent chan &amp;k_S2_P, urgent chan &amp;lock_M, urgent chan &amp;unlock_M</parameter><declaration> clock x; </declaration>
+<location id="4" x="0" y="0"><name x="-20" y="-25">S</name></location>
+<location id="5" x="150" y="0"><name x="130" y="-25">T</name></location>
+<location id="6" x="450" y="100"></location>
+<location id="7" x="300" y="100"><label kind="invariant" x="250" y="120">x&lt;30</label></location>
+<location id="8" x="150" y="100"></location>
+<init ref="4"/>
+<transition><source ref="4"/><target ref="5"/><label kind="guard" x="50" y="-20">x&gt;=20</label></transition>
+<transition><source ref="5"/><target ref="6"/><label kind="synchronisation" x="500" y="80">k_S2_P!</label><label kind="assignment" x="500" y="100">x:=0</label><nail x="600" y="0"/><nail x="600" y="100"/></transition>
+<transition><source ref="6"/><target ref="7"/><label kind="synchronisation" x="350" y="80">lock_M!</label><label kind="assignment" x="350" y="100">x:=0</label></transition>
+<transition><source ref="7"/><target ref="8"/><label kind="guard" x="200" y="80">x&gt;=20</label></transition>
+<transition><source ref="8"/><target ref="4"/><label kind="synchronisation" x="50" y="80">unlock_M!</label><nail x="0" y="100"/></transition>
 </template>
 <template>
 <name>B_t</name>
-<parameter>urgent chan &amp;k_S2_B, urgent chan &amp;k_F_B, urgent chan &amp;k_B_P</parameter><declaration>clock x;</declaration>
-<location id="11" x="0" y="0"><name x="-20" y="-25">W</name></location>
-<location id="12" x="300" y="0"><name x="280" y="-25">P</name><label kind="invariant" x="250" y="20">x&lt;3000</label></location>
-<location id="13" x="150" y="0"></location>
-<location id="14" x="150" y="-100"></location>
-<location id="15" x="450" y="0"><name x="430" y="-25">S</name></location>
-<init ref="11"/>
-<transition><source ref="11"/><target ref="13"/><label kind="synchronisation" x="50" y="-20">k_S2_B?</label></transition>
-<transition><source ref="11"/><target ref="14"/><label kind="synchronisation" x="50" y="-120">k_F_B?</label><nail x="0" y="-100"/></transition>
-<transition><source ref="13"/><target ref="12"/><label kind="synchronisation" x="200" y="-20">k_F_B?</label><label kind="assignment" x="200" y="10">x=0</label></transition>
-<transition><source ref="14"/><target ref="12"/><label kind="synchronisation" x="200" y="-120">k_S2_B?</label><label kind="assignment" x="200" y="-90">x=0</label><nail x="300" y="-100"/></transition>
-<transition><source ref="12"/><target ref="15"/><label kind="guard" x="350" y="-20">x&gt;=2000</label></transition>
-<transition><source ref="15"/><target ref="11"/><label kind="synchronisation" x="50" y="80">k_B_P!</label><label kind="assignment" x="50" y="110">x=0</label><nail x="450" y="100"/><nail x="0" y="100"/></transition>
+<parameter>urgent chan &amp;k_S1_B, urgent chan &amp;k_F_B, urgent chan &amp;k_B_F</parameter><declaration>clock x;</declaration>
+<location id="9" x="0" y="0"><name x="-20" y="-25">W</name></location>
+<location id="10" x="300" y="0"><name x="280" y="-25">P</name><label kind="invariant" x="240" y="20">x&lt;3000</label></location>
+<location id="11" x="150" y="0"></location>
+<location id="12" x="150" y="-100"></location>
+<location id="13" x="450" y="0"><name x="430" y="-25">S</name></location>
+<init ref="9"/>
+<transition><source ref="9"/><target ref="11"/><label kind="synchronisation" x="50" y="-20">k_S1_B?</label></transition>
+<transition><source ref="9"/><target ref="12"/><label kind="synchronisation" x="50" y="-120">k_F_B?</label><nail x="0" y="-100"/></transition>
+<transition><source ref="11"/><target ref="10"/><label kind="synchronisation" x="200" y="-20">k_F_B?</label><label kind="assignment" x="200" y="0">x:=0</label></transition>
+<transition><source ref="12"/><target ref="10"/><label kind="synchronisation" x="200" y="-120">k_S1_B?</label><label kind="assignment" x="200" y="-100">x:=0</label><nail x="300" y="-100"/></transition>
+<transition><source ref="10"/><target ref="13"/><label kind="guard" x="350" y="-20">x&gt;=2000</label></transition>
+<transition><source ref="13"/><target ref="9"/><label kind="synchronisation" x="50" y="80">k_B_F!</label><label kind="assignment" x="50" y="100">x:=0</label><nail x="450" y="100"/><nail x="0" y="100"/></transition>
+</template>
+<template>
+<name>F_t</name>
+<parameter>urgent chan &amp;k_S1_F, urgent chan &amp;k_P_F, urgent chan &amp;k_B_F, urgent chan &amp;k_F_B, urgent chan &amp;k_F_P</parameter><declaration>clock x;</declaration>
+<location id="14" x="0" y="0"><name x="-20" y="-25">W</name></location>
+<location id="15" x="150" y="0"><name x="130" y="-25">P0</name><label kind="invariant" x="150" y="20">x&lt;50</label></location>
+<location id="16" x="150" y="-100"><name x="130" y="-125">P1</name><label kind="invariant" x="150" y="-80">x&lt;50</label></location>
+<location id="17" x="150" y="-200"><name x="130" y="-225">P2</name><label kind="invariant" x="150" y="-180">x&lt;50</label></location>
+<location id="18" x="300" y="0"></location>
+<location id="19" x="150" y="100"></location>
+<init ref="14"/>
+<transition><source ref="14"/><target ref="15"/><label kind="synchronisation" x="50" y="-20">k_S1_F?</label><label kind="assignment" x="50" y="0">x:=0</label></transition>
+<transition><source ref="14"/><target ref="16"/><label kind="synchronisation" x="50" y="-120">k_P_F?</label><label kind="assignment" x="50" y="-100">x:=0</label><nail x="0" y="-100"/></transition>
+<transition><source ref="14"/><target ref="17"/><label kind="synchronisation" x="50" y="-220">k_B_F?</label><label kind="assignment" x="50" y="-200">x:=0</label><nail x="0" y="-200"/></transition>
+<transition><source ref="15"/><target ref="18"/><label kind="guard" x="200" y="-20">x&gt;=20</label></transition>
+<transition><source ref="16"/><target ref="18"/><label kind="guard" x="200" y="-120">x&gt;=20</label><nail x="300" y="-100"/></transition>
+<transition><source ref="17"/><target ref="18"/><label kind="guard" x="200" y="-220">x&gt;=20</label><nail x="300" y="-200"/></transition>
+<transition><source ref="18"/><target ref="19"/><label kind="synchronisation" x="200" y="80">k_F_B!</label><label kind="assignment" x="200" y="100">x:=0</label><nail x="300" y="100"/></transition>
+<transition><source ref="19"/><target ref="14"/><label kind="synchronisation" x="50" y="80">k_F_P!</label><label kind="assignment" x="50" y="100">x:=0</label><nail x="0" y="100"/></transition>
 </template>
 <template>
 <name>P_t</name>
-<parameter>urgent chan &amp;k_F_P, urgent chan &amp;k_B_P, urgent chan &amp;lock_M, urgent chan &amp;unlock_M</parameter><declaration>clock x;</declaration>
-<location id="16" x="0" y="0"><name x="-20" y="-25">W</name></location>
-<location id="17" x="150" y="0"><name x="130" y="-25">P</name><label kind="invariant" x="100" y="20">x&lt;300</label></location>
-<location id="18" x="0" y="-100"><name x="-20" y="-125">W2</name></location>
-<location id="19" x="150" y="-100"><name x="130" y="-125">P2</name><label kind="invariant" x="100" y="-80">x&lt;300</label></location>
-<location id="20" x="300" y="0"></location>
-<location id="21" x="300" y="100"><label kind="invariant" x="250" y="120">x&lt;30</label></location>
-<location id="22" x="150" y="100"></location>
-<init ref="16"/>
-<transition><source ref="16"/><target ref="17"/><label kind="synchronisation" x="50" y="-20">k_F_P?</label></transition>
-<transition><source ref="16"/><target ref="18"/><label kind="synchronisation" x="-50" y="-60">k_B_P?</label></transition>
-<transition><source ref="18"/><target ref="19"/><label kind="synchronisation" x="50" y="-120">k_F_P?</label><label kind="assignment" x="200" y="10">x=0</label></transition>
-<transition><source ref="17"/><target ref="20"/><label kind="guard" x="200" y="-20">x&gt;=250</label></transition>
-<transition><source ref="19"/><target ref="20"/><label kind="guard" x="200" y="-120">x&gt;=250</label><nail x="300" y="-100"/></transition>
-<transition><source ref="20"/><target ref="21"/><label kind="synchronisation" x="350" y="80">lock_M!</label><label kind="assignment" x="350" y="110">x=0</label><nail x="450" y="0"/><nail x="450" y="100"/></transition>
-<transition><source ref="21"/><target ref="22"/><label kind="guard" x="200" y="80">x&gt;=20</label></transition>
-<transition><source ref="22"/><target ref="16"/><label kind="synchronisation" x="50" y="80">unlock_M!</label><nail x="0" y="100"/></transition>
+<parameter>urgent chan &amp;k_F_P, urgent chan &amp;k_S2_P, urgent chan &amp;k_P_F</parameter><declaration>clock x;</declaration>
+<location id="20" x="0" y="0"><name x="-20" y="-25">W</name></location>
+<location id="21" x="150" y="0"><name x="130" y="-25">P</name><label kind="invariant" x="100" y="20">x&lt;300</label></location>
+<location id="22" x="0" y="-100"><name x="-20" y="-125">W2</name></location>
+<location id="23" x="150" y="-100"><name x="130" y="-125">P2</name><label kind="invariant" x="100" y="-80">x&lt;300</label></location>
+<location id="24" x="300" y="0"></location>
+<init ref="20"/>
+<transition><source ref="20"/><target ref="21"/><label kind="synchronisation" x="50" y="-20">k_F_P?</label><label kind="assignment" x="50" y="0">x:=0</label></transition>
+<transition><source ref="20"/><target ref="22"/><label kind="synchronisation" x="-60" y="-60">k_S2_P?</label></transition>
+<transition><source ref="22"/><target ref="23"/><label kind="synchronisation" x="50" y="-120">k_F_P?</label><label kind="assignment" x="50" y="-100">x:=0</label></transition>
+<transition><source ref="21"/><target ref="24"/><label kind="guard" x="200" y="-20">x&gt;=250</label></transition>
+<transition><source ref="23"/><target ref="24"/><label kind="guard" x="200" y="-120">x&gt;=250</label><nail x="300" y="-100"/></transition>
+<transition><source ref="24"/><target ref="20"/><label kind="synchronisation" x="50" y="80">k_P_F!</label><label kind="assignment" x="50" y="100">x:=0</label><nail x="300" y="100"/><nail x="0" y="100"/></transition>
 </template>
 <template>
 <name>M_t</name>
 <parameter>urgent chan &amp;lock_M, urgent chan &amp;unlock_M</parameter>
 <declaration></declaration>
-<location id="23" x="0" y="0"><name x="-20" y="-25">W</name></location>
-<location id="24" x="150" y="0"></location>
-<init ref="23"/>
-<transition><source ref="23"/><target ref="24"/><label kind="synchronisation" x="50" y="-20">lock_M?</label></transition>
-<transition><source ref="24"/><target ref="23"/><label kind="synchronisation" x="50" y="80">unlock_M?</label><nail x="150" y="100"/><nail x="0" y="100"/></transition>
+<location id="25" x="0" y="0"><name x="-20" y="-25">W</name></location>
+<location id="26" x="150" y="0"></location>
+<init ref="25"/>
+<transition><source ref="25"/><target ref="26"/><label kind="synchronisation" x="50" y="-20">lock_M?</label></transition>
+<transition><source ref="26"/><target ref="25"/><label kind="synchronisation" x="50" y="-120">unlock_M?</label><nail x="150" y="-100"/><nail x="0" y="-100"/></transition>
+</template>
+<template>
+<name>R_t</name>
+<parameter>urgent chan &amp;lock_M, urgent chan &amp;unlock_M</parameter>
+<declaration>clock x;</declaration>
+<location id="27" x="0" y="0"><name x="-20" y="-25">W</name></location>
+<location id="28" x="150" y="0"><name x="130" y="-25">M</name><label kind="invariant" x="100" y="20">x&lt;50</label></location>
+<location id="29" x="300" y="0"></location>
+<location id="30" x="450" y="0"><name x="430" y="-25">S</name><label kind="invariant" x="400" y="20">x&lt;75</label></location>
+<init ref="27"/>
+<transition><source ref="27"/><target ref="28"/><label kind="synchronisation" x="50" y="-20">lock_M!</label><label kind="assignment" x="50" y="0">x:=0</label></transition>
+<transition><source ref="28"/><target ref="29"/><label kind="guard" x="200" y="-20">x&gt;=25</label></transition>
+<transition><source ref="29"/><target ref="30"/><label kind="synchronisation" x="350" y="-20">unlock_M!</label><label kind="assignment" x="350" y="0">x:=0</label></transition>
+<transition><source ref="30"/><target ref="27"/><label kind="guard" x="200" y="80">x&gt;=50</label><nail x="450" y="100"/><nail x="0" y="100"/></transition>
 </template>
 <system>
+urgent chan k_S1_B;
 urgent chan k_S1_F;
-urgent chan k_S2_F;
-urgent chan k_S2_B;
+urgent chan k_S2_P;
+urgent chan k_B_F;
 urgent chan k_F_B;
 urgent chan k_F_P;
-urgent chan k_B_P;
+urgent chan k_P_F;
 urgent chan lock_M;
 urgent chan unlock_M;
 
-S1 = S1_t(k_S1_F);
-S2 = S2_t(k_S2_F, k_S2_B);
-F = F_t(k_S1_F, k_S2_F, k_F_B, k_F_P);
-B = B_t(k_S2_B, k_F_B, k_B_P);
-P = P_t(k_F_P, k_B_P, lock_M, unlock_M);
+S1 = S1_t(k_S1_B, k_S1_F);
+S2 = S2_t(k_S2_P, lock_M, unlock_M);
+B = B_t(k_S1_B, k_F_B, k_B_F);
+F = F_t(k_S1_F, k_P_F, k_B_F, k_F_B, k_F_P);
+P = P_t(k_F_P, k_S2_P, k_P_F);
 M = M_t(lock_M, unlock_M);
+R = R_t(lock_M, unlock_M);
 
-system S1, S2, F, B, P, M;
+system S1, S2, B, F, P, M, R;
 </system>
 </nta>

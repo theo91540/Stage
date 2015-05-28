@@ -29,6 +29,8 @@ public abstract class Composant
 	protected int[] Max;
 	protected String Name;
 	protected String codexml = "";
+	protected int echelle = 50;
+	protected int decalage;
 
 	public Composant(String id)
 	{

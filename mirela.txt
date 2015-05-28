@@ -2,11 +2,8 @@
 
 S1=Periodic(200, 300)[150, 450]
 S2=Aperiodic(20)
-F=First(S1,S2[50, 75])->(B , P )
-B=Both(S2, F)[2000, 3000]
-P=Priority(F[250, 300], B[250, 300])
-M=Memory(P [20, 30])
-
-
-
-
+B=Both(S1, F)[2000, 3000]
+F=First(S1[20,50], P[20,50], B[20,50])
+P=Priority(F[250, 300], S2[250, 300])
+M=Memory(S2[20, 30])
+R=Rendering(M)(50, 75)[25, 50]

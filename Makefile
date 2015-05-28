@@ -1,7 +1,7 @@
 all: compilation
 
 compilation: 
-	cd src/ && javacc Compilateur.jj && javac *.java -d ../bin/ && cd mirelac/ && javac *.java -d ../../bin/
+	cd src/ && javacc Compilateur.jj && javac *.java -d ../bin/ && javadoc mirelac/*.java -d ../javadoc/ && cd mirelac/ && javac *.java -d ../../bin/
 
 clean:
-	rm -f bin/*
+	rm -rf bin/* && rm src/*.java

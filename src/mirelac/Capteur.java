@@ -1,5 +1,11 @@
 package mirelac;
 
+/**
+ * <b>Composant du type Capteur d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public abstract class Capteur extends Composant 
 {
 
@@ -8,6 +14,10 @@ public abstract class Capteur extends Composant
 		super(id);
 	}
 
+	/** 
+	 * Construit la partie xml parametres du composant
+	 * @param sys systeme du composant
+	 */
 	protected void parameters(Systeme sys)
 	{
 		codexml += "<name>"+this.getName()+"_t</name>\n";
@@ -43,7 +53,11 @@ public abstract class Capteur extends Composant
 		codexml += "<declaration> clock x; </declaration>\n";
 	}
 
-	protected void locationsSortie(Systeme sys, int echelle, int decalage)
+	/** 
+	 * Construit la partie xml des locations de sortie du composant
+	 * @param sys systeme du composant
+	 */
+	protected void locationsSortie(Systeme sys)
 	{
 		int h = echelle;
 
@@ -75,7 +89,13 @@ public abstract class Capteur extends Composant
 		}
 	}
 
-	protected void transitionsSortie(Systeme sys, int echelle, int decalage, int init, int id_temp)
+	/** 
+	 * Construit la partie xml des transitions de sortie du composant
+	 * @param sys systeme du composant
+	 * @param init numero de la premiere localite du composant
+	 * @param id_temp numero localite du debut des output
+	 */
+	protected void transitionsSortie(Systeme sys, int init, int id_temp)
 	{
 		int h = echelle;
 

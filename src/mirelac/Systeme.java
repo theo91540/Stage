@@ -21,55 +21,97 @@ public class Systeme
 	 */
 	private int id_location = 0;
 
+	/**
+	 * Systeme channels 
+	 */
 	private String sys_chan = "";
 
+	/**
+	 * Systeme templates
+	 */
 	private String sys_template = "";
 
+	/**
+	 * Constructeur Systeme
+     */
 	public Systeme()
 	{
 		this.liste_composants = new ArrayList<Composant>();
 	}
 
-	public void addSysChan(String s)
-	{
-		this.sys_chan += s;
-	}
-
-	public void addSysTemplate(String s)
-	{
-		this.sys_template += s;
-	}
-
-	public int getIdLocation()
-	{
-		return id_location;
-	}
-
-	public int setIdLocation()
-	{
-		return id_location++;
-	}
-
-	public int getSize()
-	{
-		return liste_composants.size();
-	}
-
-	public Composant[] toArray()
-	{
-		return (Composant[]) liste_composants.toArray(new Composant[liste_composants.size()]);
-	}
-
+	/**
+	 *  Ajoute un Composant au systeme
+	 *  @param c le composant a ajouter
+	 */
 	public void addComposant(Composant c)
 	{
 		liste_composants.add(c);
 	}
 
+	/**
+	 *	Supprimer un composant du systeme
+	 *  @param i indice du composant a retirer 
+	 */
 	public void remove(int i)
 	{
 		liste_composants.remove(i);
 	}
 
+	/**
+	 *	Donne la taille du systeme (nombre de composants)
+	 */
+	public int getSize()
+	{
+		return liste_composants.size();
+	}
+
+	/**
+	 *	@return le systeme sous forme de tableau de Composant
+	 */
+	public Composant[] toArray()
+	{
+		return (Composant[]) liste_composants.toArray(new Composant[liste_composants.size()]);
+	}
+
+	/**
+	 *	Ajoute un chan au sys_chan
+	 *	@param s le chan a ajouter
+	 */
+	public void addSysChan(String s)
+	{
+		this.sys_chan += s;
+	}
+
+	/**
+	 *	Ajoute un template au sys_template
+	 *	@param s le template a ajouter
+	 */
+	public void addSysTemplate(String s)
+	{
+		this.sys_template += s;
+	}
+
+	/** 
+	 *	@return indice de la location actuelle pendant la construction du xml
+	 */
+	public int getIdLocation()
+	{
+		return id_location;
+	}
+
+	/**
+	 *	Incremente la valeur de la location actuelle pendant la construction du xml
+	 *	@return id_location
+	 */
+	public int setIdLocation()
+	{
+		return id_location++;
+	}
+
+	/**
+	 *	Retourne le Composant du systeme a partir d'une chaine de caracteres
+	 *	@param s le nom composant a retourner
+	 */
 	public Composant toComp(String s)
 	{
 		for(int i=0; i<liste_composants.size(); i++)
@@ -82,6 +124,10 @@ public class Systeme
 		return null;
 	}
 	
+	/**
+	 *	Nombre de location output (sortie) pour le composant
+	 *	@param target tableau des noms de composants de sortie
+	 */
 	public int nbOutLoc(String[] target)
 	{
 		int n = -1;
@@ -93,6 +139,9 @@ public class Systeme
 		return n;
 	}
 
+	/**
+	 *	Permet de generer l'ensemble des targets (composants cibles) du composant
+	 */
 	public void generateTargets()
 	{
 		for(int i=0; i<liste_composants.size(); i++)
@@ -120,6 +169,9 @@ public class Systeme
 		}
 	}
 
+	/**
+	 *	Verifie la consistence du systeme
+	 */
 	public void checkConsistency()
 	{
 		for(int i=0;i<liste_composants.size();i++)
@@ -203,6 +255,9 @@ public class Systeme
 		return new_tab;
 	}	
 
+	/** 
+	 *	Transforme le systeme sous forme xml pour pouvoir visualiser le systeme sur uppaal
+	 */
 	public String toXML()
 	{
 		String sys_system = "system ";

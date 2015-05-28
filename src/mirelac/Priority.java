@@ -1,13 +1,28 @@
 package mirelac;
 
+/**
+ * <b>UniteTraitement du type Priority d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class Priority extends UniteTraitement
 {
 
+ 	/**
+	 * Constructeur Priority
+	 * @param id nom du composant
+     */
 	public Priority(String id)
 	{
 		super(id);
+		this.decalage = 0;
 	}
 
+	/**
+	 * Construit le xml du composant Priority
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();
@@ -26,7 +41,7 @@ public class Priority extends UniteTraitement
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"300\" y=\"0\"></location>\n";
 		
 		//locations sortie
-		locationsSortie(sys, 50);
+		locationsSortie(sys);
 		
 		//location initiale
 		codexml += "<init ref=\""+init+"\"/>\n";
@@ -39,11 +54,10 @@ public class Priority extends UniteTraitement
 		codexml += "<transition><source ref=\""+(init+3)+"\"/><target ref=\""+id_temp+"\"/><label kind=\"guard\" x=\"200\" y=\"-120\">x&gt;="+this.getMin()[1]+"</label><nail x=\"300\" y=\"-100\"/></transition>\n";
 
 		//transitions sortie
-		transitionsSortie(sys, 50, 0, init, id_temp);
+		transitionsSortie(sys, init, id_temp);
 
 		codexml += "</template>\n";
 
 		return codexml;
 	}
-	
 }

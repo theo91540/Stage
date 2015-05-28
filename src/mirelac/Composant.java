@@ -20,28 +20,78 @@ package mirelac;
  */
 public abstract class Composant
 {
+	/**
+	 *	Nom du composant
+	 */
+	protected String name;
 
-	protected String[] Source;
-	protected String[] Target;
-	protected int MinStart;
-	protected int MaxStart;
-	protected int[] Min;
-	protected int[] Max;
-	protected String Name;
-	protected String codexml = "";
-	protected int echelle = 50;
+	/**
+	 *	Tableau des composants sources du composant
+	 */
+	protected String[] source;
+
+	/**
+	 *	Tableau des composants cibles du composant
+	 */
+	protected String[] target;
+
+	/**
+	 *	min debut
+	 */
+	protected int minStart;
+
+	/**
+	 *	max debut
+	 */
+	protected int maxStart;
+
+	/**
+	 *	tableau de duree min
+	 */
+	protected int[] min;
+
+	/**
+	 *	tableau de duree max
+	 */
+	protected int[] max;
+
+	/**
+	 *	code xml du composant
+	 */
+	protected String codexml;
+
+	/**
+	 *	echelle de construction du composant
+	 */
+	protected int echelle;
+
+	/**
+	 *	decalage des locations de sortie
+	 */
 	protected int decalage;
 
+	/**
+	 *	Constructeur de composant
+	 *	@param id nom du composant
+	 */
 	public Composant(String id)
 	{
-		Source=new String[0];
-		Target=new String[0];
-		MinStart=0;
-		MaxStart=0;
-		Min=new int[0];
-		Max=new int[0];
-		Name=id;
+		this.name = id;
+		this.source = new String[0];
+		this.target = new String[0];
+		this.minStart = 0;
+		this.maxStart = 0;
+		this.min = new int[0];
+		this.max = new int[0];
+		this.codexml = new String();
+		this.echelle = 50;
 	}
+	
+	/**
+	 *	Construit le xml correspondant 
+	 *	@param sys systeme du composant
+	 */
+	public abstract String toXML(Systeme sys);
 
 	public int maxMem(Composant c, String s)
 	{
@@ -61,64 +111,64 @@ public abstract class Composant
 		return -1;
 	}
 
-	//Getters et Setters 
+	////////////////////////
+	// Getters et Setters //
+	////////////////////////
 
 	public String[] getSource() {
-		return Source;
+		return source;
 	}
 
 	public void setSource(String[] source) {
-		this.Source = source;
+		this.source = source;
 	}
 
 	public String[] getTarget() {
-		return Target;
+		return target;
 	}
 
 	public void setTarget(String[] target) {
-		this.Target = target;
+		this.target = target;
 	}
 
 	public int getMinStart() {
-		return MinStart;
+		return minStart;
 	}
 
 	public void setMinStart(int minstart) {
-		this.MinStart = minstart;
+		this.minStart = minstart;
 	}
 
 	public int getMaxStart() {
-		return MaxStart;
+		return maxStart;
 	}
 
 	public void setMaxStart(int maxstart) {
-		this.MaxStart = maxstart;
+		this.maxStart = maxstart;
 	}
 
 	public int[] getMin() {
-		return Min;
+		return min;
 	}
 
 	public void setMin(int[] min) {
-		this.Min = min;
+		this.min = min;
 	}
 
 	public int[] getMax() {
-		return Max;
+		return max;
 	}
 
 	public void setMax(int[] max) {
-		this.Max = max;
+		this.max = max;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.Name = name;
+		this.name = name;
 	}
-
-	public abstract String toXML(Systeme sys);
 }
 

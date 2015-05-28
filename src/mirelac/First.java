@@ -1,13 +1,28 @@
 package mirelac;
 
+/**
+ * <b>UniteTraitement du type First d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class First extends UniteTraitement
 {
 
+ 	/**
+	 * Constructeur First
+	 * @param id nom du composant
+     */
 	public First(String id)
 	{
 		super(id);
+		this.decalage = 0;
 	}
 
+	/**
+	 * Construit le xml du composant First
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();
@@ -29,19 +44,21 @@ public class First extends UniteTraitement
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"300\" y=\"0\"></location>\n";
 		
 		//locations sortie
-		locationsSortie(sys, 50);
+		locationsSortie(sys);
 
 		//location initiale
 		codexml += "<init ref=\""+init+"\"/>\n";
 
 		//transitions entree
-		for(int j=0;this.getSource().length>j;j++){
+		for(int j=0;this.getSource().length>j;j++)
+		{
 			codexml += "<transition><source ref=\""+init+"\"/><target ref=\""+(init+j+1)+"\"/><label kind=\"synchronisation\" x=\"50\" y=\""+((-100*j)-20)+"\">k_"+this.getSource()[j]+"_"+this.getName()+"?</label><label kind=\"assignment\" x=\"50\" y=\""+((-100*j))+"\">x:=0</label>";
 			if(j>0){codexml += "<nail x=\"0\" y=\""+(-100*j)+"\"/>";}
 			codexml += "</transition>\n";
 
 		}
-		for(int j=0;this.getSource().length>j;j++){
+		for(int j=0;this.getSource().length>j;j++)
+		{
 			codexml += "<transition><source ref=\""+(init+j+1)+"\"/><target ref=\""+id_temp+"\"/><label kind=\"guard\" x=\"200\" y=\""+((-100*j)-20)+"\">x&gt;="+this.getMin()[j]+"</label>";
 			if(j>0){codexml += "<nail x=\"300\" y=\""+(-100*j)+"\"/>";}
 			codexml += "</transition>\n";
@@ -49,7 +66,7 @@ public class First extends UniteTraitement
 
 
 		//transitions sortie
-		transitionsSortie(sys, 50, 0, init, id_temp);
+		transitionsSortie(sys, init, id_temp);
 		
 		codexml += "</template>\n";
 

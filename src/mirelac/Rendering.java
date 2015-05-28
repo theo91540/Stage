@@ -1,13 +1,27 @@
 package mirelac;
 
+/**
+ * <b>Composant du type Rendering d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class Rendering extends Composant
 {
 
+ 	/**
+	 * Constructeur Rendering
+	 * @param id nom du composant
+     */
 	public Rendering(String id)
 	{
 		super(id);
 	}
 
+	/**
+	 * Construit le xml du composant Rendering
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();

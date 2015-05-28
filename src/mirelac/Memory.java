@@ -1,13 +1,27 @@
 package mirelac;
 
+/**
+ * <b>Composant du type Memory d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class Memory extends Composant
 {
 
+ 	/**
+	 * Constructeur Memory
+	 * @param id nom du composant
+     */
 	public Memory(String id)
 	{
 		super(id);
 	}
 
+	/**
+	 * Construit le xml du composant Memory
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();

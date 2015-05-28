@@ -1,13 +1,28 @@
 package mirelac;
 
+/**
+ * <b>UniteTraitement du type Both d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class Both extends UniteTraitement
 {
 
+	 /**
+	 * Constructeur Both
+	 * @param id nom du composant
+     */
 	public Both(String id)
 	{
 		super(id);
+		this.decalage = 1;
 	}
 
+	/**
+	 * Construit le xml du composant Both
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();
@@ -22,11 +37,11 @@ public class Both extends UniteTraitement
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"300\" y=\"0\"><name x=\"280\" y=\"-25\">P</name><label kind=\"invariant\" x=\"240\" y=\"20\">x&lt;"+this.getMax()[0]+"</label></location>\n";
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"150\" y=\"0\"></location>\n";
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"150\" y=\"-100\"></location>\n";
-		int id_temp=sys.getIdLocation();
+		int id_temp = sys.getIdLocation();
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\"450\" y=\"0\"><name x=\"430\" y=\"-25\">S</name></location>\n";
 		
 		//locations sortie
-		locationsSortie(sys, 50);
+		locationsSortie(sys);
 
 		//location initiale
 		codexml += "<init ref=\""+init+"\"/>\n";
@@ -39,7 +54,7 @@ public class Both extends UniteTraitement
 		codexml += "<transition><source ref=\""+(init+1)+"\"/><target ref=\""+id_temp+"\"/><label kind=\"guard\" x=\"350\" y=\"-20\">x&gt;="+this.getMin()[0]+"</label></transition>\n";
 
 		//transitions sortie
-		transitionsSortie(sys, 50, 1, init, id_temp);
+		transitionsSortie(sys, init, id_temp);
 
 		codexml += "</template>\n";
 

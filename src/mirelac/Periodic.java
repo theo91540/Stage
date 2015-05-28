@@ -1,14 +1,28 @@
 package mirelac;
 
+/**
+ * <b>Capteur du type Periodic d'un systeme MIRELA.</b>
+ * 
+ * @author Johan Arcile, Theo Chelim
+ * @version 1.1
+ */
 public class Periodic extends Capteur
 {
 
+ 	/**
+	 * Constructeur Periodic
+	 * @param id nom du composant
+     */
 	public Periodic(String id)
 	{
 		super(id);
 		this.decalage = 1;
 	}
 
+	/**
+	 * Construit le xml du composant Periodic
+	 * @param sys systeme du composant
+	 */
 	public String toXML(Systeme sys)
 	{
 		int init = sys.getIdLocation();
@@ -25,7 +39,7 @@ public class Periodic extends Capteur
 		codexml += "<location id=\""+(sys.setIdLocation())+"\" x=\""+(6*echelle)+"\" y=\"0\"><name x=\""+((36*echelle)-20)+"\" y=\"-25\">S</name></location>\n";
 
 		//locations sortie
-		locationsSortie(sys, echelle, decalage);
+		locationsSortie(sys);
 
 		//location initiale
 		codexml += "<init ref=\""+init+"\"/>\n";
@@ -35,7 +49,7 @@ public class Periodic extends Capteur
 		codexml += "<transition><source ref=\""+(init+1)+"\"/><target ref=\""+id_temp+"\"/><label kind=\"guard\" x=\""+(4*echelle)+"\" y=\"-20\">x&gt;="+this.getMin()[0]+"</label></transition>\n";
 
 		//transitions sortie
-		transitionsSortie(sys, echelle, decalage, init, id_temp);
+		transitionsSortie(sys, init, id_temp);
 
 		codexml += "</template>\n";
 
